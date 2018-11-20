@@ -1,0 +1,19 @@
+Created By: 	  Praneet Puppala
+
+Initial Creation: July 1, 2014
+Last Modified: 	  July 1, 2014
+
+This project is addressed at making the process of keeping track of points and strikes for attendance of Consult Your Community at UMD members much easier and more automated. 
+
+This system should be able to (at some point, not necessarily in V1):
+	
+	1) Keep a record of accumulated points
+	2) Mark strikes against those that missed events without excuses (while keeping track of which ones are excused and which aren't)
+	3) Send emails to those that receive strikes
+	4) Notify executive leadership when someone receives three strikes
+	5) Work on a semesterly schedule
+	6) Provide a simple, easy-to-use interface
+
+Future Upgrades:
+
+1) Location based check-ins to figure out actual vs. expected? Could use bluetooth or something? Build this into an app, etc.

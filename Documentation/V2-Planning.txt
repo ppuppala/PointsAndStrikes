@@ -1,0 +1,51 @@
+Created By: 	  Praneet Puppala
+
+Initial Creation: July 3, 2014
+Last Modified: 	  July 19, 2014
+
+Improvements on V1:
+
+1) Work with existing docs/formats of event check-ins, membership database/list-serv, and points/strikes logging system? (as much as possible)
+
+Thoughts/Ideas:
+
+1) Existing docs shouldn't be too hard. The current points/strikes log can be inputted as a CSV and then edited, but its probably not that necessary to use this same file again, since its a new leadership team. However, one idea from the current file to keep in mind is the log of attendance at all of the semester's events in addition to the points/strikes. On the topic of new leadership team, that's all we need in terms of list-serv and what not, because the leadership team is the only expected attendance. 
+
+	a. Because the leadership team is the only expected attendance, and its around 25 people, the sets algorithm might be inefficient. Is there a way to use fewer sets, and can cycling through each be more efficient?
+
+2) Excused absences actually shouldn't be that hard. Instead of having one of the parameters to running the script being an expected list (which we already know to be the leadership team), we can just take in a list of excused members. Initial thought is that they can be thrown into another set, take the difference between this excused set and the expected set, and then take the difference of this difference and the actual set, and you'll have your strikes. Rather, instead of the second difference, you could loop through one by one since you have to decide if its a point or a strike. Either way, its not too difficult.
+
+3) This brings us to the last point, the most difficult part, in my mind right now, might actually be how to keep a running total of points and strikes over time. A database would be the quickest way, I'm assuming, but it seems overly complicated for such a simple task. Maybe a strikes/points file that is loaded in every time the script is run? That could be the initial take. This isn't a hard concept, its just that I've never done something like it. I remember Diehl doing something like this for his Java game and keeping a high score tracker while at NCI. 
+	
+	a. Points/Strikes is doable with CSV, but how to keep track of attendance by event, add cols to csv as we go? 
+
+Changes/What's In:
+
+1) Instead of the two parameters being expected and actual guests, there are only 2 parameters now, an actual guest list and an excused list. The expected will be constant, and is just the leadership team for this upcoming year. A difference will be taken: the excused from the expected, and then the expected will be compared against the actual to see who should receive a strike. This should address both parts 1 and 2 above. 
+	a. Actually, I added a third input parameter, that will be used to create a new column in the running log of points and strikes.
+
+2) In terms of 1a, perhaps creating a hash table of the expected guests and then doing a set of the keys - (difference) from the set of the actual guests, and incrementing the counts of those that are in attendance could be helpful in terms of keeping track of points. The hash table could be made from a semester-long running CSV file which would keep track of points and strikes. Additionally, this could be slightly faster since we're using hash tables while also taking advantage of the set operations.
+
+	Possible improved algorithm:
+		a. Build set of excused absences. 
+		b. Create hash table from preserved CSV file. (might want to make a backup of this somewhere else, just a future thought)
+			i. Key = email, Value = 2-elem array of points and strikes
+				Alternatively, make the value a list of tuples, with the first element of the tuple being the event name, and the second element of the tuple a 1, 0, or -1, for point, excused, and strike, respectively. 
+		c. Set of the hash table's keys - excused -> real expected
+		d. Those in real expected not in actual -> strike count in hash gets incremented, email sent with count of strikes to person and presidents.
+		e. Those in real expected in actual -> points
+
+Most Recent Updates on File:
+
+1) Parameters are not passed in as command line arguments. Instead, there is now a prompt asking for the various necessary items: actual attendance file, excused attendance file, and name of the event.
+
+2) Implemented above "Possible Improved Algorithm" with change that keys are a tuple of name and email, and values being a list of tuples starting with their positions, and then a list of events with format as (eventName, attendance), where attendance is either 1, 0, or -1. 
+
+3) Keeping a running log of points and strikes was done by rewriting the csv file that was used to load in the information when the script is first called to run. There was no easy way to append a column per row, at least that I could find, so rewriting just ended up being the easy way. 
+
+What's Left:
+
+1) Functions/ways to get current total count of points and strikes for persons.
+	Update: Got strike count since I decided to include that in the email.
+2) Special notification for a third strike. 
+	Update: Strike count now included in the email so I don't think I have to worry about this. 

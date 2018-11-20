@@ -1,0 +1,24 @@
+Created By: 	  Praneet Puppala
+
+Initial Creation: July 1, 2014
+Last Modified: 	  July 4, 2014
+
+This is the inital take at the project. Again, it will only really support the sending of emails to those who aren't in attendance. While it doesn't directly address having excused absences, it accomplishes the email notification by checking the actual attendance list against an expected attendance list, which would have to be manually adjusted for excuses. 
+
+How It Works:
+
+- Requirements
+
+1) Expects two CSV files as arguments in the command line prompt. The first should be the actual attendance file, and the second should be the expected attendance file. 
+2) Each CSV file should be structured such that the second column is the contact email for the attendee.
+
+- Data Structures/Algorithms
+
+1) Parse the expected attendance file, and put all the email addresses/names into a set, which would be the best structure to use in this case since we're only keeping track of essentially yes or no, rather than a count (which would be better accomplished with a map).
+2) Parse the actual attendance file and remove the guests in attendance from the previously created set.
+3) Send emails to the remaining members of the set. 
+
+UPDATES:
+
+1) To Data Structures/Algorithms on July 2, 2014: While the algorithm above is probably the most efficient, in terms of memory usage at least, you'll have to loop through the actual attendees to reduce the set. However, Python offers a "x not in y" library/implementation that would make it very easy to find those in the expected list that are not in the actual list. To use this implementation, instead of just one set, you would create two sets, one with all the expected guests, and one with all the actual guests. Then, you could just call "expected not in actual" to send the emails. 
+	- Original way checks/cycles through elements of the first set for each element of the second set, so that can be a little inefficient. The library's x not in y implementation is probably much more optimized.

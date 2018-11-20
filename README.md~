@@ -1,0 +1,6 @@
+A short python project that keeps track of attendance of a group of people over
+time. A person that attends an event receives a point, while a person that 
+misses the event without an excuse is issued a strike.
+
+The script, when executed, reads through an existing CSV file of points and 
+strikes. Then, the script asks for a new
